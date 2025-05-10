@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('laporan', function (Blueprint $table) {
             $table->foreignIdFor(\App\Models\User::class)
-                ->after('mahasiswa_id')
                 ->nullable()
                 ->change()
                 ->constrained('users')
