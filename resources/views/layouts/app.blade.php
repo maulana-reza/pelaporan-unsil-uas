@@ -5,7 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon')}}/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon')}}/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon')}}/favicon-16x16.png">
+    <link rel="manifest" href="{{asset('favicon')}}/site.webmanifest">
     <title>{{ config('app.name', 'K UI') }}</title>
 
     <!-- Fonts -->
@@ -24,45 +27,43 @@
     <script src="{{ asset('assets/js/app.js') }}?key={{uniqid()}}"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-
 <body class="font-sans antialiased text-gray-900 dark:text-gray-200">
-
 <div x-data="mainState" :class="{ dark: isDarkMode }" @resize.window="handleWindowResize" x-cloak>
     <x-banner/>
-
-    <div class="min-h-screen text-gray-900 bg-gray-100 dark:bg-dark-eval-0 dark:text-gray-200">
+    <div class="min-h-screen text-gray-900 bg-gray-100 dark:bg-dark-eval-0 dark:text-gray-200"
+         style="background-image: url('{{asset('bg-2.png')}}'); background-size: cover; background-position: center;">
         <!-- Sidebar -->
         <x-sidebar.sidebar/>
 
         <!-- Page Wrapper -->
-        <div class="flex flex-col min-h-screen" :class="{
-                    'lg:ml-64': isSidebarOpen,
-                    'md:ml-16': !isSidebarOpen
-                }" style="transition-property: margin; transition-duration: 150ms;">
-
+        <div class="flex flex-col min-h-screen transition-margin duration-150" :class="{
+                'lg:ml-64': isSidebarOpen,
+                'md:ml-16': !isSidebarOpen
+            }">
             @livewire('navigation-menu')
-
             <x-mobile-bottom-nav/>
-
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header>
-                    <div class="px-4 py-6 mx-auto max-w-7xl w-full sm:px-6 lg:px-8">
-                        {{ $header }}
+            @php($header = ucwords($header ?? \App\Helpers\Menu::getMenuLabel(request()->route()->getName())))
+            @if($header)
+                <header class="px-4 mx-auto max-w-7xl w-full sm:px-6 lg:px-8 py-4">
+                    <div class="grid grid-cols-1 gap-3 bg-white py-2 px-3 shadow rounded-lg dark:bg-dark-eval-1">
+                        <div class="font-semibold leading-tight flex flex-wrap gap-2">
+                            <h2 class="text-xl flex-grow ">
+                                {!! $header !!}
+                            </h2>
+                        </div>
                     </div>
                 </header>
             @endif
-
             <!-- Page Content -->
             <main class="flex-1 p-4 mx-auto max-w-7xl w-full sm:p-6 lg:p-8">
                 {{ $slot }}
+                @livewire('livewire-toast')
             </main>
-
-            <!-- Page Footer -->
             <x-footer/>
         </div>
     </div>
 </div>
+
 @stack('modals')
 </body>
 @livewireScripts
