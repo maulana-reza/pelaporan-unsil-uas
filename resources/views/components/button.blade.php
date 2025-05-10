@@ -67,5 +67,10 @@
         @if($iconOnly)
             <span class="sr-only">{{ $srText ?? '' }}</span>
         @endif
+
+        @if($attributes->get('wire:click'))
+            @svg('heroicon-o-refresh', 'w-4 h-4 animate-spin',['wire:loading' => 'spin','wire:target' =>
+            $attributes->get('wire:click')])
+        @endif
     </button>
 @endif

@@ -15,6 +15,10 @@ class BuatLaporan extends Component
     use WithFileUploads;
 
     public ?array $items = [];
+    public ?Laporan $laporan = null;
+    public $listeners = [
+        'refresh' => '$refresh',
+    ];
 
     public function render()
     {
@@ -33,33 +37,37 @@ class BuatLaporan extends Component
             'items.label' => 'required',
             'items.email' => 'required',
             'items.deskripsi' => 'required',
-//            'items.klasifikasi.*' => 'required',
+            'items.bukti' => 'nullable|file|max:1024',
+            'items.klasifikasi.0' => 'required',
         ]);
         DB::beginTransaction();
         try {
-            $klasifikasi = Klasifikasi::findOrFail(last($data['items']['klasifikasi']));
-            $path = 'laporan/' . collect(explode(' ', $klasifikasi->parent->nama))
-                    ->map(fn($word) => strtoupper($word[0]))
+            $klasifikasi = Klasifikasi::findOrFail(last($this->items['klasifikasi']));
+            $path = 'laporan/' . collect(explode(' ', $klasifikasi->nama))
+                    ->map(fn($word) => strtoupper($word))
                     ->join('') . '/' . date('Ymd');
-            Laporan::create([
+
+            $this->laporan = Laporan::create([
                 'no_laporan' => Laporan::generateNoLaporan($klasifikasi),
-                'bukti' => $this->items['bukti']?->store($path, env('FILESYSTEM_DRIVER')),
-                'label' => $data['items']['label'],
-                'deskripsi' => $data['items']['deskripsi'],
+                'bukti' => $this->items['bukti']->store($path, env('FILESYSTEM_DRIVER', 'local')),
+                'label' => $this->items['label'],
+                'deskripsi' => $this->items['deskripsi'],
                 'klasifikasi_id' => $klasifikasi->id,
-                'user_id' => auth()->id(),
-                'email' => $data['items']['email'],
+                'user_id' => auth()->check() ? auth()->user()->id : null,
+                'email' => $this->items['email'],
             ]);
-            DB::commit();
+
             $this->dispatch('show', [
                 'type' => 'success',
                 'message' => 'Laporan berhasil dibuat',
             ])->to('livewire-toast');
-        } catch (\Exception $e) {
+            DB::commit();
+            $this->dispatch('refresh');
+        } catch (\Throwable $e) {
             DB::rollBack();
             $this->dispatch('show', [
                 'type' => 'error',
-                'message' => 'Gagal membuat laporan, silahkan coba lagi',
+                'message' => 'Gagal membuat laporan, silahkan coba lagi <br>' . $e->getMessage() . ':' . $e->getLine(),
             ])->to('livewire-toast');
         }
     }

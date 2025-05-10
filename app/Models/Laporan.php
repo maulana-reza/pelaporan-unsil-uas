@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use ParagonIE\CipherSweet\BlindIndex;
+use ParagonIE\CipherSweet\Constants;
 use ParagonIE\CipherSweet\EncryptedRow;
 use Spatie\LaravelCipherSweet\Concerns\UsesCipherSweet;
 use Spatie\LaravelCipherSweet\Contracts\CipherSweetEncrypted;
@@ -32,16 +33,17 @@ class Laporan extends Model implements CipherSweetEncrypted
             ->addField('label')
             ->addBlindIndex('label', new BlindIndex('label_index', []))
             ->addField('deskripsi')
-            ->addField('user_id');
+            ->addField('user_id', Constants::TYPE_OPTIONAL_TEXT);
     }
 
-    public static function generateNoLaporan($klasifikasi)
+   public static function generateNoLaporan($klasifikasi)
     {
-        $lastNo = optional(self::latest('id')->first())->no_laporan;
-        $counter = $lastNo ? (int)explode('/', $lastNo)[1] + 1 : 1;
-        $prefix = collect(explode(' ', $klasifikasi->parent->nama))
-            ->map(fn($word) => strtoupper($word[0]))
-            ->join('');
-        return sprintf('%s/%04d', $prefix, $counter);
+        $counter = optional(self::latest('id')->first())->no_laporan
+            ? (int)explode('/', self::latest('id')->first()->no_laporan)[1] + 1
+            : 1;
+      $prefix = collect(explode(' ', $klasifikasi->nama))
+                ->map(fn($word) => strtoupper($word[0]))
+                ->join('');
+        return sprintf('%s/%04d', strtoupper($prefix), $counter);
     }
 }

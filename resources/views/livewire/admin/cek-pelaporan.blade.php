@@ -9,7 +9,7 @@
                             <span class="text-2xl font-mono whitespace-pre ">{{env('APP_NAME')}}</span>
                         </a>
                     </div>
-                    <div class="text-left my-4">
+                    <div class="text-left mt-4">
                         <a href="{{route('buat-laporan')}}">
                             <x-button class="w-full">
                                 BUAT LAPORAN
