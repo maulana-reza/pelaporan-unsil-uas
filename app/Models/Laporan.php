@@ -32,18 +32,17 @@ class Laporan extends Model implements CipherSweetEncrypted
             ->addBlindIndex('no_laporan', new BlindIndex('no_laporan_index', []))
             ->addField('label')
             ->addBlindIndex('label', new BlindIndex('label_index', []))
-            ->addField('deskripsi')
-            ->addField('user_id', Constants::TYPE_OPTIONAL_TEXT);
+            ->addField('deskripsi');
     }
 
-   public static function generateNoLaporan($klasifikasi)
+    public static function generateNoLaporan($klasifikasi)
     {
         $counter = optional(self::latest('id')->first())->no_laporan
             ? (int)explode('/', self::latest('id')->first()->no_laporan)[1] + 1
             : 1;
-      $prefix = collect(explode(' ', $klasifikasi->nama))
-                ->map(fn($word) => strtoupper($word[0]))
-                ->join('');
+        $prefix = collect(explode(' ', $klasifikasi->nama))
+            ->map(fn($word) => strtoupper($word[0]))
+            ->join('');
         return sprintf('%s/%04d', strtoupper($prefix), $counter);
     }
 }
