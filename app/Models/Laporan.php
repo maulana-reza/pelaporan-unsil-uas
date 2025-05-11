@@ -52,16 +52,18 @@ class Laporan extends Model implements CipherSweetEncrypted
     {
         return $this->belongsTo(Klasifikasi::class, 'klasifikasi_id', 'id');
     }
-
     const STATUS = [
         0 => 'Menunggu Tindakan',
         1 => 'Di Tindaklanjuti',
         2 => 'Selesai',
         3 => 'Ditolak',
     ];
-
     public function status()
     {
         return self::STATUS[$this->status] ?: 'Menunggu Tindakan';
+    }
+    public function progress()
+    {
+
     }
 }

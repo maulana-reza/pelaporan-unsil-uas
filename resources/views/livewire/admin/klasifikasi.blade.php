@@ -22,6 +22,7 @@
                         <td class="px-3 py-2 text-sm">#</td>
                         <td class="px-3 py-2 text-sm">Klasifikasi</td>
                         <td class="px-3 py-2 text-sm">Parent</td>
+                        <td class="px-3 py-2 text-sm">Bidang Tindak Lanjut</td>
                         <td class="px-3 py-2 text-sm w-10">Action</td>
                     </tr>
                     </thead>
@@ -34,6 +35,13 @@
                             </td>
                             <td class="px-3 py-2 text-sm ">
                                 {{ isset($results->parent) ? $results->parent->nama : '-' }}
+                            </td>
+                            <td class="px-3 py-2 text-sm ">
+                                <x-secondary-button class="text-xs py-2 " wire:click="openEditTindakLanjut({{$results->id}})">
+                                    edit
+                                </x-secondary-button>
+                                {!! $results->bidangTindakLanjut() !!}
+
                             </td>
                             <td class="px-3 py-2 text-sm">
                                 <x-secondary-button wire:click="openEdit({{$results->id}})">
@@ -76,6 +84,46 @@
                 tutup
             </x-secondary-button>
             <x-button wire:click="store">
+                Buat
+            </x-button>
+        </x-slot>
+    </x-tall-crud-dialog-modal>
+    <x-tall-crud-dialog-modal wire:model="tindak_lanjut_id">
+        <x-slot name="title">
+            Bidang Tindak Lanjut
+        </x-slot>
+        <x-slot name="content">
+            <div>
+                <div class="grid grid-cols-1 gap-2">
+                    <div>
+                        <x-button wire:click="addTindakLanjuti">
+                            Tambah Bidang
+                        </x-button>
+                    </div>
+                    @foreach($tindak_lanjut_array as $tindakan)
+                        <div class="flex items-center gap-2">
+                            <div class="flex-grow">
+                                <x-default-input
+                                    name="items.bidang_terkait_id.{{$tindakan}}"
+                                    label="Tindak Lanjut {{$tindakan}}"
+                                    :option="$bidang_terkait"
+                                    type="select"
+                                />
+                            </div>
+                            <x-secondary-button wire:click="deleteTindakLanjuti({{$tindakan}})">
+                                hapus
+                            </x-secondary-button>
+                        </div>
+
+                    @endforeach
+                </div>
+            </div>
+        </x-slot>
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$set('tindak_lanjut_id',null)">
+                tutup
+            </x-secondary-button>
+            <x-button wire:click="storeTindakLanjut">
                 Buat
             </x-button>
         </x-slot>

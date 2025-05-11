@@ -8,17 +8,32 @@ use Livewire\Component;
 class CekPelaporan extends Component
 {
     public ?string $search = null;
-    public function showData()
+    public ?Laporan $laporan = null;
+
+    public function searchData()
     {
-        Laporan::where('no_laporan', $this->search)
-            ->with(['mahasiswa', 'klasifikasi'])
-            ->get();
+        $laporan = Laporan::where('no_laporan', $this->search)
+            ->first();
+        if (!$laporan) {
+            $this->dispatch('show', [
+                'type' => 'error',
+                'message' => 'Laporan tidak ditemukan'
+            ])->to('livewire-toast');
+            return;
+        }
+        $this->laporan = $laporan;
+        $this->dispatch('show', [
+            'type' => 'success',
+            'message' => 'Laporan ditemukan'
+        ])->to('livewire-toast');
 
     }
+
     public function mount()
     {
 
     }
+
     public function render()
     {
         return view('livewire.admin.cek-pelaporan')
