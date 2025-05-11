@@ -37,13 +37,11 @@ class DatabaseSeeder extends Seeder
         $r1->givePermissionTo('admin-klasifikasi');
         $r1->givePermissionTo('admin-laporan');
 
-        $user = User::first();
-        if ($user) {
-            $user->assignRole($r1);
-            $user->assignRole($r2);
-            $user->assignRole($r3);
-        } else {
-            $this->command->warn('No user found. Please create a user to assign roles.');
+        $user = User::all();
+        foreach ($user as $item) {
+            $item->assignRole($r1);
+            $item->assignRole($r2);
+            $item->assignRole($r3);
         }
 
 
