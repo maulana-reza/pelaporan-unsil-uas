@@ -12,7 +12,7 @@ class CekPelaporan extends Component
 
     public function searchData()
     {
-        $laporan = Laporan::where('no_laporan', $this->search)
+        $laporan = Laporan::whereBlind('no_laporan','no_laporan_index', $this->search)
             ->first();
         if (!$laporan) {
             $this->dispatch('show', [

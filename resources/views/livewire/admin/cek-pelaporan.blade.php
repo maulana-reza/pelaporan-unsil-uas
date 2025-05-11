@@ -20,7 +20,7 @@
                 <div class="flex gap-2 justify-content-end items-end">
                     <x-default-input class="flex-grow" type="text" name="search" label="Cek Laporan Kamu"/>
                     <div class="text-right py-4">
-                        <x-button wire:click="searchData" >
+                        <x-button wire:click="searchData">
                             Cek
                         </x-button>
                     </div>
@@ -37,9 +37,23 @@
                         </div>
                     </div>
                     <div class="max-w-md mx-auto pb-10">
+                        <div class="mb-4">
+                            <h2 class="text-lg font-semibold">Nomor Laporan</h2>
+                            <p class="text-gray-500">{{$laporan->no_laporan}}</p>
+                        </div>
+                        <div class="mb-4">
+                            <h2 class="text-lg font-semibold">Judul Laporan</h2>
+                            <p class="text-gray-500">{{$laporan->label}}</p>
+                        </div>
+                        <div class="mb-4">
+                            <h2 class="text-lg font-semibold">Status</h2>
+                            <p class="text-gray-500">{{\App\Models\Laporan::STATUS[$laporan->status]}}</p>
+                        </div>
+                        <hr class="my-5">
                         <ol class="relative border-l border-red-600">
-                            <!-- Step 1 -->
-                            <li class="mb-10 ml-6">
+                            @foreach($laporan->progress() as $progress)
+                                @if($progress['status'] == 1)
+                                    <li class="mb-10 ml-6">
       <span
           class="absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 ring-8 ring-white">
         <svg class="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
@@ -48,49 +62,31 @@
                 clip-rule="evenodd"/>
         </svg>
       </span>
-                                <h3 class="font-medium leading-tight">Bidang Akademik</h3>
-                                <p class="text-sm text-gray-500">Melakukan plagiarisme dalam tugas akhir.</p>
-                                <p class="text-sm text-gray-400">Sanksi: Skorsing selama 1 semester.</p>
-                            </li>
+                                        <h3 class="font-medium leading-tight">Bidang
+                                            : {{$progress['bidang_terkait']}}</h3>
+                                        @forelse($progress['tindakan'] as $tindakan)
+                                            <p class="text-sm text-gray-500">{{$tindakan->dokumen}}</p>
+                                            <p class="text-sm text-gray-500">{{$tindakan->created_at}}</p>
+                                        @empty
+                                            <p class="text-sm text-gray-500">Belum ada tindakan</p>
+                                        @endforelse
+                                    </li>
+                                @else
+                                    <li class="mb-10 ml-6">
 
-                            <!-- Step 2 -->
-                            <li class="mb-10 ml-6">
-      <span
-          class="absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full border-2 border-red-600 bg-white ring-8 ring-white">
-        <span class="h-2 w-2 rounded-full bg-red-600"></span>
-      </span>
-                                <h3 class="font-medium text-red-600 leading-tight">Bidang Keuangan</h3>
-                                <p class="text-sm text-gray-500">Menunggak pembayaran UKT tanpa alasan jelas.</p>
-                                <p class="text-sm text-gray-400">Sanksi: Penangguhan registrasi semester berikutnya.</p>
-                            </li>
-
-                            <!-- Step 3 -->
-                            <li class="mb-10 ml-6">
                         <span
                             class="absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-white border-2 border-gray-300 ring-8 ring-white"></span>
-                                <h3 class="font-medium text-gray-500 leading-tight">Bidang Kemahasiswaan</h3>
-                                <p class="text-sm text-gray-500">Melakukan kekerasan fisik saat kegiatan organisasi.</p>
-                                <p class="text-sm text-gray-400">Sanksi: Pencabutan hak mengikuti organisasi selama 1
-                                    tahun.</p>
-                            </li>
-
-                            <!-- Step 4 -->
-                            <li class="mb-10 ml-6">
-                        <span
-                            class="absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-white border-2 border-gray-300 ring-8 ring-white"></span>
-                                <h3 class="font-medium text-gray-500 leading-tight">Bidang Sarana & Prasarana</h3>
-                                <p class="text-sm text-gray-500">Merusak fasilitas ruang kelas secara sengaja.</p>
-                                <p class="text-sm text-gray-400">Sanksi: Ganti rugi sesuai nilai kerusakan.</p>
-                            </li>
-
-                            <!-- Step 5 -->
-                            <li class="ml-6">
-                        <span
-                            class="absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-white border-2 border-gray-300 ring-8 ring-white"></span>
-                                <h3 class="font-medium text-gray-500 leading-tight">Bidang Kedisiplinan</h3>
-                                <p class="text-sm text-gray-500">Tidak hadir tanpa izin selama lebih dari 10 hari.</p>
-                                <p class="text-sm text-gray-400">Sanksi: Surat peringatan dan pembinaan khusus.</p>
-                            </li>
+                                        <h3 class="font-medium leading-tight">Bidang
+                                            : {{$progress['bidang_terkait']}}</h3>
+                                        @forelse($progress['tindakan'] as $tindakan)
+                                            <p class="text-sm text-gray-500">{{$tindakan->dokumen}}</p>
+                                            <p class="text-sm text-gray-500">{{$tindakan->created_at}}</p>
+                                        @empty
+                                            <p class="text-sm text-gray-500">Belum ada tindakan</p>
+                                        @endforelse
+                                    </li>
+                                @endif
+                            @endforeach
                         </ol>
                     </div>
                 </div>

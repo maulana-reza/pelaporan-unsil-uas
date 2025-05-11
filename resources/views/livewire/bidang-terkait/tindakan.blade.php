@@ -86,10 +86,8 @@
                         <span class="text-gray-500">{{ $detail->deskripsi }}</span>
                     </div>
                     <x-default-input type="file" name="items.bukti" label="Bukti Laporan" :items="$items"/>
-
-
                     <x-default-input type="textarea" name="items.dokumen" label="Deskripsi Tindakan yang dilakukan"/>
-                    <x-default-input type="file" name="items.dokumentasi" label="Dokumentasi/Dokumen Progress"/>
+                    <x-default-input type="file" name="items.dokumentasi" :items="$items" label="Dokumentasi/Dokumen Progress"/>
                 </div>
             @endif
         </x-slot:content>
@@ -97,10 +95,10 @@
             <x-button wire:click="$set('modal', false)" variant="secondary" class="uppercase">
                 Tutup
             </x-button>
-            <x-button wire:click="update(3)" variant="danger" class="uppercase">
+            <x-button wire:click="updateProgress(1)" variant="danger" class="uppercase">
                 Next Step
             </x-button>
-            <x-button wire:click="update(1)" variant="primary" class="uppercase">
+            <x-button wire:click="updateProgress(0)" variant="primary" class="uppercase">
                 Update Progress
             </x-button>
         </x-slot:footer>

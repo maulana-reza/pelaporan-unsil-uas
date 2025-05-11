@@ -136,8 +136,6 @@ class Klasifikasi extends Component
         $this->modal = null;
         $this->edit = null;
     }
-
-
     public
     function render()
     {

@@ -43,10 +43,7 @@ class BuatLaporan extends Component
         DB::beginTransaction();
         try {
             $klasifikasi = Klasifikasi::findOrFail(last($this->items['klasifikasi']));
-            $path = 'laporan/' . collect(explode(' ', $klasifikasi->nama))
-                    ->map(fn($word) => strtoupper($word))
-                    ->join('') . '/' . date('Ymd');
-
+            $path = Laporan::generatePathBukti($klasifikasi);
             $this->laporan = Laporan::create([
                 'no_laporan' => Laporan::generateNoLaporan($klasifikasi),
                 'bukti' => $this->items['bukti']->store($path, env('FILESYSTEM_DRIVER', 'local')),

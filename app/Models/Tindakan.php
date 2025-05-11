@@ -14,5 +14,8 @@ class Tindakan extends Model
         'dokumentasi',
         'user_id',
         'laporan_id',
+        'bidang_terkait_id',
+        'status'
     ];
+
 }
