@@ -106,7 +106,6 @@
                     {{ __('Profile') }}
                 </x-dropdown-link>
                 @lumki
-
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                     <x-dropdown-link href="{{ route('api-tokens.index') }}">
                         {{ __('API Tokens') }}

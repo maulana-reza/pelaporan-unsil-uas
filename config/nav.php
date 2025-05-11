@@ -8,7 +8,7 @@ return [
     'Laporan Masuk' => [
         'icon' => 'heroicon-o-adjustments',
         'route' => 'laporan-masuk',
-        'can' => 'admin-dashboard',
+        'can' => 'admin-laporan',
     ],
     'Pengaturan' => [
         'icon' => 'heroicon-o-academic-cap',
@@ -17,12 +17,12 @@ return [
             'Klasifikasi' => [
                 'icon' => 'heroicon-o-adjustments',
                 'route' => 'klasifikasi',
-                'can' => 'admin-dashboard',
+                'can' => 'admin-klasifikasi',
             ],
             'Bidang Terkait' => [
                 'icon' => 'heroicon-o-adjustments',
                 'route' => 'bidang-terkait',
-                'can' => 'admin-dashboard',
+                'can' => 'admin-bidang-terkait',
             ],
         ]
     ],

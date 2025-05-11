@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('laporan', function (Blueprint $table) {
-            $table->foreignIdFor(\App\Models\User::class)
-                ->nullable()
-                ->change()
-                ->constrained('users')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+//            $table->foreignIdFor(\App\Models\User::class)
+//                ->nullable()
+//                ->change()
+//                ->constrained('users')
+//                ->cascadeOnDelete()
+//                ->cascadeOnUpdate();
         });
     }
 

@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->text('deskripsi');
             $table->foreignIdFor(\App\Models\Klasifikasi::class, 'klasifikasi_id')->constrained('klasifikasi')->cascadeOnDelete();
             $table->timestamps();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\User::class)->nullable()->constrained('users')->cascadeOnDelete();
         });
         Schema::create('tindakan', function (Blueprint $table) {
             $table->id();
@@ -35,7 +35,7 @@ return new class extends Migration {
             $table->foreignIdFor(\App\Models\Laporan::class, 'laporan_id')->constrained('laporan')->cascadeOnDelete();
             $table->timestamps();
         });
-        Schema::create('hukuman',function (Blueprint $table){
+        Schema::create('hukuman', function (Blueprint $table) {
             $table->id();
             $table->text('dokumen')->nullable();
             $table->foreignIdFor(\App\Models\Laporan::class, 'laporan_id')->constrained('laporan')->cascadeOnDelete();
