@@ -10,6 +10,11 @@ return [
         'route' => 'laporan-masuk',
         'can' => 'admin-laporan',
     ],
+    'Tindakanlanjuti Laporan' => [
+        'icon' => 'heroicon-o-adjustments',
+        'route' => 'laporan-masuk',
+        'can' => 'admin-tindakan',
+    ],
     'Pengaturan' => [
         'icon' => 'heroicon-o-academic-cap',
         'can' => 'manage users',

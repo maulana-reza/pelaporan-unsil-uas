@@ -16,6 +16,7 @@
                     <thead class="bg-secondary text-gray-100 font-bold">
                     <tr class="text-left font-bold bg-red-700">
                         <td class="px-3 py-2 text-sm">#</td>
+                        <td class="px-3 py-2 text-sm">No. Laporan</td>
                         <td class="px-3 py-2 text-sm">Label</td>
                         <td class="px-3 py-2 text-sm">Klasifikasi</td>
                         <td class="px-3 py-2 text-sm">Status</td>
@@ -27,6 +28,8 @@
                         <tr class="hover:bg-red-300 dark:hover:text-gray-900 dark:hover:bg-dark-eval-2 {{ ($loop->even ) ? "bg-red-100 dark:bg-dark-eval-3" : ""}}">
                             <td class="px-3 py-2 text-sm">{{ $loop->iteration + $datas->firstItem() - 1 }}</td>
                             <td class="px-3 py-2 text-sm">
+                                {{ $results->no_laporan }}
+                            </td><td class="px-3 py-2 text-sm">
                                 {{ $results->label }}
                             </td>
                             <td class="px-3 py-2 text-sm">

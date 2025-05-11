@@ -13,9 +13,9 @@ Route::middleware([
 ])->group(function () {
 
     Route::get('/dashboard', function () {
-        if (auth()->user()->hasRole('Superadmin')) {
+        if (auth()->user()->hasRole('Petugas')) {
             return redirect()->route('admin-dasbor');
-        } elseif (auth()->user()->hasRole('Admin')) {
+        } elseif (auth()->user()->hasRole('Bidang-Terkait')) {
             return redirect()->route('tindakan');
         } else {
             return redirect()->route('buat-laporan');
