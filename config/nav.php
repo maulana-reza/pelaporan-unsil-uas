@@ -10,9 +10,9 @@ return [
         'route' => 'laporan-masuk',
         'can' => 'admin-laporan',
     ],
-    'Tindakanlanjuti Laporan' => [
+    'Tindak lanjuti Laporan' => [
         'icon' => 'heroicon-o-adjustments',
-        'route' => 'laporan-masuk',
+        'route' => 'tindakan',
         'can' => 'admin-tindakan',
     ],
     'Pengaturan' => [

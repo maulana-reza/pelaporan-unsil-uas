@@ -12,7 +12,6 @@ class Tindakan extends Model
     protected $fillable = [
         'dokumen',
         'dokumentasi',
-        'dokumentasi',
         'user_id',
         'laporan_id',
     ];

@@ -29,10 +29,6 @@ class Klasifikasi extends Model
         return $data ? '<ol>' . $data . '</ol>' : '-';
     }
 
-    public function openEditTindakLanjut()
-    {
-
-    }
 
     public function bidang_terkait_klasifikasi()
     {

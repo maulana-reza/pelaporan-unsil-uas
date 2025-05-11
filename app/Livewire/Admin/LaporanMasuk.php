@@ -26,7 +26,6 @@ class LaporanMasuk extends Component
         $this->modal = $id;
         $this->detail = Laporan::find($id);
         $this->items['bukti'] = $this->detail->bukti;
-
     }
 
     public function query(): Builder

@@ -21,7 +21,7 @@
                     <tr class="text-left font-bold bg-red-700">
                         <td class="px-3 py-2 text-sm">#</td>
                         <td class="px-3 py-2 text-sm">Nama</td>
-                        <td class="px-3 py-2 text-sm">Deskripsi</td>
+                        <td class="px-3 py-2 text-sm">Daftar Petugas</td>
                         <td class="px-3 py-2 text-sm w-10">Action</td>
                     </tr>
                     </thead>
@@ -33,7 +33,11 @@
                                 {{ $results->nama }}
                             </td>
                             <td class="px-3 py-2 text-sm ">
-                                {{ $results->deskripsi }}
+                                <x-secondary-button class="text-xs py-2 "
+                                                    wire:click="openEditPetugas({{$results->id}})">
+                                    edit
+                                </x-secondary-button>
+                                {!! $results->petugasList() !!}
                             </td>
                             <td class="px-3 py-2 text-sm">
                                 <x-secondary-button wire:click="openEdit({{$results->id}})">
@@ -62,7 +66,7 @@
     </div>
     <x-tall-crud-dialog-modal wire:model="modal">
         <x-slot name="title">
-           Bidang Terkait
+            Bidang Terkait
         </x-slot>
         <x-slot name="content">
             <div class="grid grid-cols-1 gap-2">
@@ -79,4 +83,43 @@
             </x-button>
         </x-slot>
     </x-tall-crud-dialog-modal>
+    <x-tall-crud-dialog-modal wire:model="bidang_terkait_id">
+        <x-slot name="title">
+            Bidang Tindak Lanjut
+        </x-slot>
+        <x-slot name="content">
+            <div>
+                <div class="grid grid-cols-1 gap-2">
+                    <x-button wire:click="addBidangPetugas">
+                        Tambah Petugas
+                    </x-button>
+                    @foreach($bidang_terkait_array as $i)
+                        <div class="flex items-center gap-2">
+                            <div class="flex-grow">
+                                <x-default-input
+                                    name="items.petugas_id.{{$i}}"
+                                    label="Petugas {{$i}}"
+                                    :option="$petugas"
+                                    type="select"
+                                />
+                            </div>
+                            <x-secondary-button wire:click="deleteBidangPetugas({{$i}})">
+                                hapus
+                            </x-secondary-button>
+                        </div>
+
+                    @endforeach
+                </div>
+            </div>
+        </x-slot>
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$set('bidang_terkait_id',null)">
+                tutup
+            </x-secondary-button>
+            <x-button wire:click="storeBidangPetugas">
+                Buat
+            </x-button>
+        </x-slot>
+    </x-tall-crud-dialog-modal>
+
 </div>

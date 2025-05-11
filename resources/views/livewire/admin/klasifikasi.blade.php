@@ -37,7 +37,8 @@
                                 {{ isset($results->parent) ? $results->parent->nama : '-' }}
                             </td>
                             <td class="px-3 py-2 text-sm ">
-                                <x-secondary-button class="text-xs py-2 " wire:click="openEditTindakLanjut({{$results->id}})">
+                                <x-secondary-button class="text-xs py-2 "
+                                                    wire:click="openEditTindakLanjut({{$results->id}})">
                                     edit
                                 </x-secondary-button>
                                 {!! $results->bidangTindakLanjut() !!}
@@ -95,11 +96,9 @@
         <x-slot name="content">
             <div>
                 <div class="grid grid-cols-1 gap-2">
-                    <div>
-                        <x-button wire:click="addTindakLanjuti">
-                            Tambah Bidang
-                        </x-button>
-                    </div>
+                    <x-button wire:click="addTindakLanjuti">
+                        Tambah Bidang
+                    </x-button>
                     @foreach($tindak_lanjut_array as $tindakan)
                         <div class="flex items-center gap-2">
                             <div class="flex-grow">

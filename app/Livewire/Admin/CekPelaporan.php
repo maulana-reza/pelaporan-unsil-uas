@@ -26,7 +26,6 @@ class CekPelaporan extends Component
             'type' => 'success',
             'message' => 'Laporan ditemukan'
         ])->to('livewire-toast');
-
     }
 
     public function mount()

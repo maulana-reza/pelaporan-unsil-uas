@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\BidangTerkaitPetugas;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -36,7 +37,7 @@ class BidangTerkait extends Component
         $klasifikasi = \App\Models\BidangTerkait::findOrFail($id);
         $this->items = [
             'nama' => $klasifikasi->nama,
-            'parent_id' => $klasifikasi->parent_id,
+            'deskripsi' => $klasifikasi->deskripsi,
         ];
     }
 
@@ -69,6 +70,68 @@ class BidangTerkait extends Component
         $this->dispatch('refresh');
         $this->modal = null;
         $this->edit = null;
+    }
+    public ?array $bidang_terkait_array = [];
+    public ?int $bidang_terkait_count = null;
+    public ?int $bidang_terkait_id = null;
+    public ?array $petugas = [];
+
+
+    public function openEditPetugas($id)
+    {
+        $this->bidang_terkait_id = $id;
+        $bidang = BidangTerkaitPetugas::where('bidang_terkait_id', $id)
+            ->get()
+            ->toArray();
+
+        $this->bidang_terkait_array = $bidang ? range(1, count($bidang)) : [];
+        $this->bidang_terkait_count = count($this->bidang_terkait_array);
+        foreach ($this->bidang_terkait_array as $index) {
+            $this->items['petugas_id'][$index] = $bidang[$index - 1]['petugas_id'];
+        }
+
+        $this->petugas = \App\Models\User::all()->pluck('name', 'id')->toArray();
+
+    }
+    public function deleteBidangPetugas()
+    {
+        if ($this->bidang_terkait_count) {
+            $this->bidang_terkait_array = array_slice($this->bidang_terkait_array, 0, -1);
+            $this->bidang_terkait_count = count($this->bidang_terkait_array);
+        }
+
+    }
+    public function addBidangPetugas()
+    {
+        $this->bidang_terkait_count = $this->bidang_terkait_count ? $this->bidang_terkait_count + 1 : 1;
+        $this->bidang_terkait_array[] = $this->bidang_terkait_count;
+
+    }
+    public function storeBidangPetugas()
+    {
+        $this->validate([
+            'items.petugas_id' => 'required',
+        ]);
+        if ($this->bidang_terkait_id) {
+            BidangTerkaitPetugas::where('bidang_terkait_id', $this->bidang_terkait_id)
+                ->delete();
+            foreach ($this->bidang_terkait_array as $index) {
+                BidangTerkaitPetugas::create([
+                    'urutan' => $index,
+                    'bidang_terkait_id' => $this->bidang_terkait_id,
+                    'petugas_id' => $this->items['petugas_id'][$index],
+                ]);
+            }
+        }
+        $this->dispatch('show', [
+            'type' => 'success',
+            'message' => 'Berhasil diupdate'
+        ])->to('livewire-toast');
+        $this->dispatch('refresh');
+        $this->modal = null;
+        $this->edit = null;
+        $this->bidang_terkait_id = null;
+
     }
 
     public function render()
