@@ -1,7 +1,4 @@
 <div class="w-full {{auth()->check() ? '':'min-h-screen'}} p-0 m-0 ">
-    @if(auth()->check())
-        @livewire('livewire-toast',[], key('livewire-toast'))
-    @endif
     <div class="{{auth()->check() ? '':'min-h-screen px-3'}} flex flex-col justify-center items-center">
         <div class="bg-white shadow {{auth()->check() ? '':'md:w-[40em] '}}  w-full py-5 px-5">
             @if(!$laporan)
