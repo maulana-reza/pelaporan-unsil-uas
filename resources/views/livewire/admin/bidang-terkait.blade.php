@@ -20,8 +20,8 @@
                     <thead class="bg-secondary text-gray-100 font-bold">
                     <tr class="text-left font-bold bg-red-700">
                         <td class="px-3 py-2 text-sm">#</td>
-                        <td class="px-3 py-2 text-sm">Klasifikasi</td>
-                        <td class="px-3 py-2 text-sm">Parent</td>
+                        <td class="px-3 py-2 text-sm">Nama</td>
+                        <td class="px-3 py-2 text-sm">Deskripsi</td>
                         <td class="px-3 py-2 text-sm w-10">Action</td>
                     </tr>
                     </thead>
@@ -33,7 +33,7 @@
                                 {{ $results->nama }}
                             </td>
                             <td class="px-3 py-2 text-sm ">
-                                {{ isset($results->parent) ? $results->parent->nama : '-' }}
+                                {{ $results->deskripsi }}
                             </td>
                             <td class="px-3 py-2 text-sm">
                                 <x-secondary-button wire:click="openEdit({{$results->id}})">
@@ -62,13 +62,12 @@
     </div>
     <x-tall-crud-dialog-modal wire:model="modal">
         <x-slot name="title">
-            Klasifikasi
+           Bidang Terkait
         </x-slot>
         <x-slot name="content">
             <div class="grid grid-cols-1 gap-2">
-                <x-default-input name="items.nama" label="Nama klasifikasi" type="text"/>
-                <x-default-input name="items.parent_id" label="Klasifikasi" type="select"
-                                 :option="\App\Models\Klasifikasi::where('parent_id',null)->get()->pluck('nama','id')"/>
+                <x-default-input name="items.nama" label="Nama" type="text"/>
+                <x-default-input name="items.deskripsi" label="Deskripsi" type="textarea"/>
             </div>
         </x-slot>
         <x-slot name="footer">

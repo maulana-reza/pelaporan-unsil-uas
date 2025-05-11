@@ -25,7 +25,7 @@ class LaporanMasuk extends Component
     {
         $this->modal = $id;
         $this->detail = Laporan::find($id);
-
+        $this->items['bukti'] = $this->detail->bukti;
 
     }
 
@@ -35,6 +35,19 @@ class LaporanMasuk extends Component
             $query->whereBlind('no_laporan', 'no_laporan_index', $this->q)
                 ->orWhereBlind('label', 'label_index', $this->q);
         });
+    }
+    public function update($status)
+    {
+        $this->detail->update([
+            'status' => $status,
+        ]);
+        $this->dispatch('show', [
+            'message' => 'Berhasil memperbarui status laporan',
+            'type' => 'success',
+        ]);
+        $this->dispatch('refresh');
+        $this->detail = null;
+        $this->modal = null;
     }
 
     public function updatedQ()

@@ -20,12 +20,12 @@ class Dasbor extends Component
             [
                 'icon' => 'heroicon-o-document-text',
                 'label' => 'Jumlah Laporan Ditindak Lanjuti',
-                'value' => 0,
+                'value' => Laporan::where('status', Laporan::DITINDAK_LANJUTI)->get()->count(),
             ],
             [
                 'icon' => 'heroicon-o-document-text',
                 'label' => 'Jumlah Laporan Kena Sanksi',
-                'value' => 0,
+                'value' => Laporan::where('status', Laporan::SELESAI)->get()->count(),
             ]
         ];
 

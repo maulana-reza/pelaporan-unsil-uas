@@ -91,11 +91,18 @@ dark:text-gray-300 dark:focus:ring-offset-dark-eval-1 "
                 @endif
                 {{--            preview--}}
                 @if($existFile)
-                    @php($preview = \Illuminate\Support\Facades\Storage::disk(env('FILESYSTEM_DISK'))->temporaryUrl(
-    $items[str_replace('items.','',$attributes['name'])],
-    now()->addMinutes(10),
-    ['ResponseContentDisposition' => 'inline']
-    ))
+                    @if(env('FILESYSTEM_DISK') == 's3')
+
+                        @php($preview = \Illuminate\Support\Facades\Storage::disk(env('FILESYSTEM_DISK'))
+        ->temporaryUrl(
+        $items[str_replace('items.','',$attributes['name'])],
+        now()->addMinutes(10),
+        ['ResponseContentDisposition' => 'inline']
+        ))
+                    @else
+                        @php($preview = asset(\Illuminate\Support\Facades\Storage::url($items[str_replace('items.','',$attributes['name'])])))
+                    @endif
+
                     <div class="flex-shrink pt-6 flex gap-2">
                         <a href="{{ $preview }}"
                            onclick="window.open('{{ $preview }}', 'newwindow', 'width=800,height=600'); return false;"
@@ -144,11 +151,17 @@ dark:text-gray-300 dark:focus:ring-offset-dark-eval-1 "
                 @endif
             </div>
             @if(isset($items[str_replace('items.','',$attributes['name'])]) && $items[str_replace('items.','',$attributes['name'])] && is_string($items[str_replace('items.','',$attributes['name'])]))
-                @php($preview = \Illuminate\Support\Facades\Storage::disk(env('FILESYSTEM_DISK'))->temporaryUrl(
+                @if(env('FILESYSTEM_DISK') == 's3')
+
+                    @php($preview = \Illuminate\Support\Facades\Storage::disk(env('FILESYSTEM_DISK'))
+    ->temporaryUrl(
     $items[str_replace('items.','',$attributes['name'])],
     now()->addMinutes(10),
     ['ResponseContentDisposition' => 'inline']
     ))
+                @else
+                    @php($preview = asset(\Illuminate\Support\Facades\Storage::url($items[str_replace('items.','',$attributes['name'])])))
+                @endif
                 <div>
                     <template x-if="show">
                         <div class="mt-2">
@@ -321,7 +334,8 @@ dark:text-gray-300 dark:focus:ring-offset-dark-eval-1 "
                             wire:ignore
                             class="w-full space-y-2">
                             <x-label>Cari Lokasi</x-label>
-                            <gmp-place-autocomplete placeholder="Cari Lokasi" id="autocomplete" input-id="autocomplete-input"></gmp-place-autocomplete>
+                            <gmp-place-autocomplete placeholder="Cari Lokasi" id="autocomplete"
+                                                    input-id="autocomplete-input"></gmp-place-autocomplete>
                             <div
                                 wire:ignore
                                 id="map"

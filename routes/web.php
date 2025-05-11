@@ -16,7 +16,7 @@ Route::middleware([
         if (auth()->user()->hasRole('Superadmin')) {
             return redirect()->route('admin-dasbor');
         } elseif (auth()->user()->hasRole('Admin')) {
-            return redirect()->route('admin-dasbor');
+            return redirect()->route('tindakan');
         } else {
             return redirect()->route('buat-laporan');
         }
@@ -25,6 +25,13 @@ Route::middleware([
     Route::get('/laporan-masuk', \App\Livewire\Admin\LaporanMasuk::class)->name('laporan-masuk');
     Route::get('/klasifikasi', \App\Livewire\Admin\Klasifikasi::class)->name('klasifikasi');
     Route::get('/bidang-terkait', \App\Livewire\Admin\BidangTerkait::class)->name('bidang-terkait');
+});
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('tindakan', \App\Livewire\BidangTerkait\Tindakan::class)->name('tindakan');
 });
 Route::get('/buat-laporan', \App\Livewire\Pelapor\BuatLaporan::class)->name('buat-laporan');
 

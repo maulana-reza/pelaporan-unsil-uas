@@ -18,6 +18,7 @@
                         <td class="px-3 py-2 text-sm">#</td>
                         <td class="px-3 py-2 text-sm">Label</td>
                         <td class="px-3 py-2 text-sm">Klasifikasi</td>
+                        <td class="px-3 py-2 text-sm">Status</td>
                         <td class="px-3 py-2 text-sm">Action</td>
                     </tr>
                     </thead>
@@ -30,6 +31,9 @@
                             </td>
                             <td class="px-3 py-2 text-sm">
                                 {{ $results->klasifikasi->nama }}
+                            </td>
+                            <td class="px-3 py-2 text-sm">
+                                {{$results->status()}}
                             </td>
                             <td class="px-3 py-2 text-sm">
                                 <div class="flex gap-2">
@@ -82,10 +86,13 @@
             @endif
         </x-slot:content>
         <x-slot:footer>
-            <x-button wire:click="$set('modal', false)" variant="secondary" class="uppercase py-2.5">
+            <x-button wire:click="$set('modal', false)" variant="secondary" class="uppercase">
                 Tutup
             </x-button>
-            <x-button wire:click="update" variant="primary" class="uppercase py-2.5">
+            <x-button wire:click="update(3)" variant="danger" class="uppercase">
+                    Tandai spam
+            </x-button>
+            <x-button wire:click="update(1)" variant="primary" class="uppercase">
                 Tindak Lanjuti
             </x-button>
         </x-slot:footer>

@@ -14,7 +14,8 @@ class Laporan extends Model implements CipherSweetEncrypted
 {
     use HasFactory;
     use UsesCipherSweet;
-
+    const DITINDAK_LANJUTI = 1;
+    const SELESAI = 2;
     protected $table = 'laporan';
     protected $fillable = [
         'no_laporan',
@@ -23,7 +24,8 @@ class Laporan extends Model implements CipherSweetEncrypted
         'deskripsi',
         'klasifikasi_id',
         'user_id',
-        'email'
+        'email',
+        'status',
     ];
 
     public static function configureCipherSweet(EncryptedRow $encryptedRow): void
@@ -45,9 +47,21 @@ class Laporan extends Model implements CipherSweetEncrypted
             ->join('');
         return sprintf('%s/%04d', strtoupper($prefix), $counter);
     }
+
     public function klasifikasi()
     {
         return $this->belongsTo(Klasifikasi::class, 'klasifikasi_id', 'id');
+    }
 
+    const STATUS = [
+        0 => 'Menunggu Tindakan',
+        1 => 'Di Tindaklanjuti',
+        2 => 'Selesai',
+        3 => 'Ditolak',
+    ];
+
+    public function status()
+    {
+        return self::STATUS[$this->status] ?: 'Menunggu Tindakan';
     }
 }
