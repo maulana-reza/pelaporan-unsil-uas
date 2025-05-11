@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Laporan;
 use Livewire\Component;
 
 class Dasbor extends Component
@@ -14,7 +15,7 @@ class Dasbor extends Component
             [
                 'icon' => 'heroicon-o-document-text',
                 'label' => 'Jumlah Laporan Masuk',
-                'value' => 0,
+                'value' => Laporan::all()->count(),
             ],
             [
                 'icon' => 'heroicon-o-document-text',
