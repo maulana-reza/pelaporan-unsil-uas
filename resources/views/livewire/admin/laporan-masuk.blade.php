@@ -24,9 +24,19 @@
                     <tbody>
                     @forelse($datas as $results)
                         <tr class="hover:bg-red-300 dark:hover:text-gray-900 dark:hover:bg-dark-eval-2 {{ ($loop->even ) ? "bg-red-100 dark:bg-dark-eval-3" : ""}}">
-                            <td class="px-3 py-2 text-sm">{{ $loop->iteration + $results->firstItem() - 1 }}</td>
+                            <td class="px-3 py-2 text-sm">{{ $loop->iteration + $datas->firstItem() - 1 }}</td>
                             <td class="px-3 py-2 text-sm">
                                 {{ $results->label }}
+                            </td>
+                            <td class="px-3 py-2 text-sm">
+                                {{ $results->klasifikasi->nama }}
+                            </td>
+                            <td class="px-3 py-2 text-sm">
+                                <div class="flex gap-2">
+                                    <x-button wire:click="show({{ $results->id }})" variant="primary" size="sm">
+                                        Detail
+                                    </x-button>
+                                </div>
                             </td>
                         </tr>
                     @empty
@@ -38,7 +48,46 @@
                     @endforelse
                     </tbody>
                 </table>
+                <div class="flex justify-between items-center mt-3">
+                    <div>
+                        {{ $datas->links() }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <x-tall-crud-dialog-modal wire:model.live="modal">
+        <x-slot:title>
+            <div class="flex items-center gap-2">
+                <span class="text-lg font-semibold">Detail Laporan</span>
+            </div>
+        </x-slot:title>
+        <x-slot:content>
+            @if($detail)
+                <div class="grid grid-cols-1 gap-4 justify-content-end items-end">
+                    <div>
+                        <x-label>Nomor Laporan</x-label>
+                        <span class="text-gray-500">{{ $detail->no_laporan }}</span>
+                    </div>
+                    <div>
+                        <x-label>Judul Laporan</x-label>
+                        <span class="text-gray-500">{{ $detail->label }}</span>
+                    </div>
+                    <div>
+                        <x-label>Deskripsi Laporan</x-label>
+                        <span class="text-gray-500">{{ $detail->deskripsi }}</span>
+                    </div>
+                    <x-default-input type="file" name="items.bukti" label="Bukti Laporan" :items="$items"/>
+                </div>
+            @endif
+        </x-slot:content>
+        <x-slot:footer>
+            <x-button wire:click="$set('modal', false)" variant="secondary" class="uppercase py-2.5">
+                Tutup
+            </x-button>
+            <x-button wire:click="update" variant="primary" class="uppercase py-2.5">
+                Tindak Lanjuti
+            </x-button>
+        </x-slot:footer>
+    </x-tall-crud-dialog-modal>
 </div>

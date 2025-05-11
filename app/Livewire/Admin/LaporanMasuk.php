@@ -13,9 +13,19 @@ class LaporanMasuk extends Component
     use WithPagination;
 
     public ?string $q = null;
-    public ?string $detail = null;
+    public ?Laporan $detail = null;
+    public ?int $modal = null;
+    public ?array $items = [];
+
     public function detail()
     {
+
+    }
+    public function show($id)
+    {
+        $this->modal = $id;
+        $this->detail = Laporan::find($id);
+
 
     }
 

@@ -45,4 +45,9 @@ class Laporan extends Model implements CipherSweetEncrypted
             ->join('');
         return sprintf('%s/%04d', strtoupper($prefix), $counter);
     }
+    public function klasifikasi()
+    {
+        return $this->belongsTo(Klasifikasi::class, 'klasifikasi_id', 'id');
+
+    }
 }
