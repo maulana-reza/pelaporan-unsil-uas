@@ -120,12 +120,12 @@ class Klasifikasi extends Component
             \App\Models\Klasifikasi::findOrFail($this->edit)
                 ->update([
                     'nama' => $this->items['nama'],
-                    'parent_id' => isset($this->items['parent_id']) ? $this->items['parent_id'] : null,
+                    'parent_id' => isset($this->items['parent_id']) && $this->items['parent_id'] ? $this->items['parent_id'] : null,
                 ]);
         } else {
             \App\Models\Klasifikasi::create([
                 'nama' => $this->items['nama'],
-                'parent_id' => isset($this->items['parent_id']) ? $this->items['parent_id'] : null,
+                'parent_id' => isset($this->items['parent_id']) && $this->items['parent_id'] ? $this->items['parent_id'] : null,
             ]);
         }
         $this->dispatch('show', [
@@ -136,6 +136,19 @@ class Klasifikasi extends Component
         $this->modal = null;
         $this->edit = null;
     }
+
+    public function delete($id)
+    {
+
+        \App\Models\Klasifikasi::findOrFail($id)
+            ->delete();
+        $this->dispatch('confirm', [
+            'message' => 'Berhasil dihapus',
+            'type' => 'succesc',
+        ])->to('livewire-toast');
+
+    }
+
     public
     function render()
     {
